@@ -9,6 +9,36 @@ import argparse
 import textwrap
 import os 
 
+#Funbcion de prediccion de lluvia
+def Genera_Prediccion(Percent, umbral = 0.05, bandas = False):
+    #Define la variable con la prediccion de lluvia y el contador
+    Precip = np.zeros(Percent.shape[1])
+    cont = 0
+    #Itera para todos los intervalos futuros hasta llegar a una hora.
+    for Pe in Percent.T:
+        #Histograma
+        d = np.random.uniform(Pe.min(),Pe.max(),100)
+        h,b = np.histogram(d, bins=np.unique(Pe))
+        #Vector con datos ponderados     
+        LongVect = np.zeros(100)
+        c = 0
+        for i,b1,b2 in zip(h,b[:-1],b[1:]):
+            for z in range(i):
+                LongVect[c] = (b1 + b2)/2.0
+                c += 1
+        #Eleccion de la precipitacion en el intervalo (Luego se le debe hacer una correccion de magnitud)
+        Precip[cont] = np.random.choice(LongVect)
+        cont += 1
+        if Precip[cont-1] < umbral:
+            Precip[cont:] = 0.0
+            break
+    if bandas:
+        PrecipBandas = np.zeros((3,Precip.shape[0]))
+        PrecipBandas[0] = Precip-Precip*np.random.uniform(0,1.0,1)
+        PrecipBandas[-1] = Precip+Precip*np.random.uniform(0,1.5,1)
+        PrecipBandas[1] = Precip
+        return PrecipBandas
+    return Precip
 
 #Parametros de entrada del trazador
 parser=argparse.ArgumentParser(
@@ -28,6 +58,10 @@ parser.add_argument("-2","--hora_2",help="Hora final de lectura de los archivos"
 parser.add_argument("-t","--dt",help="(Opcional) Delta de t en segundos",default = '5min')
 parser.add_argument("-v","--verbose",help="Informa sobre la fecha que esta agregando", 
 	action = 'store_true')
+parser.add_argument("-b","--umbral_b",help="Umbral para hacer que la lluvia se haga cero para los casos de bajo acumulado",
+	default= 0.3, type = float )
+parser.add_argument("-a","--umbral_a",help="Umbral para hacer que la lluvia se haga cero para los casos de alto acumulado",
+	default= 0.1, type = float)
 
 #lee todos los argumentos
 args=parser.parse_args()
@@ -115,9 +149,76 @@ DataFrame[np.isnan(DataFrame)] = -999
 Coord = np.array(Coord).T
 
 #Guardado de la consulta
-f = open(args.ruta_out, 'w')
-pickle.dump(DataFrame, f)
-pickle.dump(Coord, f)
-f.close()
+#f = open(args.ruta_out, 'w')
+#pickle.dump(DataFrame, f)
+#pickle.dump(Coord, f)
+#f.close()
 
 print 'Consulta Finzalizada Satisfactoriamente'
+
+#-------------------------------------------------------------------
+#Genera la lluvia futura 
+#-------------------------------------------------------------------
+#Lectura de reglas 
+f = open('/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/ReglasGeneracion.bin','r')
+ReglasDict = pickle.load(f)
+IntervalosDict = pickle.load(f)
+f.close()
+#generacion de la lluvia
+umbralAlto = args.umbral_a
+umbralBajo = args.umbral_b
+DataFrame[DataFrame<0] = 0
+Rain24h = DataFrame	
+Predicciones = {'normal':{}, 'bajo':{}, 'alto':{}}
+for k in Rain24h.keys():
+    R = np.copy(Rain24h[k])[::-1]
+    #mira si tiene registro diferente de cero 
+    if R[0]>0:
+        #Si no es cero, pregunta por el acumulado
+        cont = 1
+        acum = R[0]
+        while R[cont]<>0 and cont<=10:
+            acum+=R[cont]
+            cont+=1
+        if cont>10: cont = 10
+        #Sale de acumular y genera la prediccion de acuerdo al acumulado
+        if acum <= IntervalosDict[cont][1]:
+            Pred = Genera_Prediccion(ReglasDict['bajo'][cont], umbral = umbralBajo, bandas = False)
+            for k2 in Predicciones.keys():
+                Predicciones[k2].update({k:Pred})
+        elif acum > IntervalosDict[cont][1]:
+            Pred = Genera_Prediccion(ReglasDict['alto'][cont], umbral = umbralAlto, bandas = True)
+            Predicciones['bajo'].update({k:Pred[0]})
+            Predicciones['normal'].update({k:Pred[1]})
+            Predicciones['alto'].update({k:Pred[2]})
+    else:
+        #si no lo tiene coloca cero en los proximos 12 intervalos de 5 min
+        Pred = np.zeros(12)
+        for k2 in Predicciones.keys():
+            Predicciones[k2].update({k:Pred})
+
+print 'Genera prediccions sin problema \n'
+
+#-------------------------------------------------------------------
+#Escribe los registros de lluvia con las predicciones
+#-------------------------------------------------------------------
+#Obtiene las fechas
+Dates = Rain24h.index.to_pydatetime().tolist()
+#Genera la serie de pandas
+DatesNew = [Dates[-1]+dt.timedelta(minutes = 5*i) for i in range(1,13)]
+#itera para escribir los archivos con la rpeduiccion de lluvia 
+for k in Predicciones.keys():
+	DictPred = {}
+	for k2 in Rain24h.keys():
+		DictPred.update({k2:np.hstack([Rain24h[k2][-1], Predicciones[k][k2]])})
+	DatesNew = [Dates[-1]+dt.timedelta(minutes = 5*i) for i in range(0,13)]
+	RainPred = pd.DataFrame(DictPred, index=pd.to_datetime(DatesNew))
+	#Guardado de la consulta
+	f = open(args.ruta_out + '_cast_'+k+'.rain', 'w')
+	pickle.dump(RainPred, f)
+	pickle.dump(Coord, f)
+	f.close()
+	#imprime para el log 
+	print 'Registro de lluvia en prediccion para condiciones '+k+'\n'
+	print RainPred.mean(axis = 1)
+	print '\n'

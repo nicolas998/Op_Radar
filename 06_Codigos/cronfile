@@ -5,5 +5,5 @@
 #0-59/5 * * * * python /home/renea998/scripts/Cron_Figura_SimExtrapol.py > /home/renea998/CronLogs/Log_Figuras_extrapol.txt 2>&1
 
 
-0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Genera_Lluvia.py > /home/renea998/CronLogs/Log_Genera_Lluvia.txt 2>&1
+0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Genera_Lluvia.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/Log_Genera_Lluvia.txt 2>&1
 

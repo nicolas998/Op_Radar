@@ -9,7 +9,7 @@ from multiprocessing import Pool
 #RUTAS DE TRABAJO
 #-------------------------------------------------------------------
 rutaCodigo = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Interpola_Campos.py'
-rutaCuenca = '/home/nicolas/Operacional/Op_Interpolated/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_C.nc'
+rutaCuenca = '/home/nicolas/Operacional/Op_Interpolated/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
 rutaRain = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/ConsultaRain_cast'
 rutaCampo = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/CampoIDW_'
 

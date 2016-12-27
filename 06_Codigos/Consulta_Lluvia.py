@@ -210,8 +210,8 @@ DatesNew = [Dates[-1]+dt.timedelta(minutes = 5*i) for i in range(1,13)]
 for k in Predicciones.keys():
 	DictPred = {}
 	for k2 in Rain24h.keys():
-		DictPred.update({k2:np.hstack([Rain24h[k2][-1], Predicciones[k][k2]])})
-	DatesNew = [Dates[-1]+dt.timedelta(minutes = 5*i) for i in range(0,13)]
+		DictPred.update({k2:np.hstack([Rain24h[k2][-2:], Predicciones[k][k2]])})
+	DatesNew = [Dates[-2]+dt.timedelta(minutes = 5*i) for i in range(0,14)]
 	RainPred = pd.DataFrame(DictPred, index=pd.to_datetime(DatesNew))
 	#Guardado de la consulta
 	f = open(args.ruta_out + '_cast_'+k+'.rain', 'w')

@@ -167,11 +167,17 @@ for k in Proyectos:
 #Guarda los caudales 
 #-------------------------------------------------------------------
 print 'Aviso: Ingresa a grabar caudales simulados'
+if args.rutaCampo.endswith('normal.bin'):
+	ext = 'normal'
+elif args.rutaCampo.endswith('bajo.bin'):
+	ext = 'bajo'
+elif args.rutaCampo.endswith('alto.bin'):
+	ext = 'alto'
 
 for k in Caudales.keys():
     for k2 in Caudales[k].keys():
         #Guarda el archivo 
-        nombre = args.rutaQsim + 'Qsim_'+k+'_'+k2+'.qsim'
+        nombre = args.rutaQsim + 'Qsim_'+k+'_'+k2+'_'+ext+'.qsim'
         f = open(nombre, 'w')
         pickle.dump(Caudales[k][k2], f)
         f.close()

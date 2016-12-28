@@ -1,8 +1,3 @@
-#0-59/5 * * * * python /home/renea998/scripts/Cron_Actualiza_Campo.py > /home/renea998/CronLogs/Log_ActualizaCampos.txt 2>&1
-#0-59/10 * * * * python /home/renea998/scripts/Cron_Campo_olver.py > /home/renea998/CronLogs/Log_CampoExtrapolated.txt 2>&1
-#0-59/5 * * * * python /home/renea998/scripts/Cron_Ejecucion_Modelo.py > /home/renea998/CronLogs/Log_Ejecucion_v01.txt 2>&1
-#0-59/5 * * * * python /home/renea998/scripts/Cron_Figura_SimSimple.py > /home/renea998/CronLogs/Log_Figuras_simple.txt 2>&1
-#0-59/5 * * * * python /home/renea998/scripts/Cron_Figura_SimExtrapol.py > /home/renea998/CronLogs/Log_Figuras_extrapol.txt 2>&1
-
 0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Genera_Lluvia.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/01_Log_Genera_Lluvia.txt 2>&1
 0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Interpola_Lluvia.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/02_Log_Interpola_Lluvia.txt 2>&1
+0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Ejecucion_Modelo.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/03_Log_Ejecucion_Modelo.txt 2>&1

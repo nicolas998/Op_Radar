@@ -148,12 +148,6 @@ DataFrame[np.isnan(DataFrame)] = -999
 #Proceso de las coordenadas
 Coord = np.array(Coord).T
 
-#Guardado de la consulta
-#f = open(args.ruta_out, 'w')
-#pickle.dump(DataFrame, f)
-#pickle.dump(Coord, f)
-#f.close()
-
 print 'Consulta Finzalizada Satisfactoriamente'
 
 #-------------------------------------------------------------------
@@ -204,14 +198,12 @@ print 'Genera prediccions sin problema \n'
 #-------------------------------------------------------------------
 #Obtiene las fechas
 Dates = Rain24h.index.to_pydatetime().tolist()
-#Genera la serie de pandas
-DatesNew = [Dates[-1]+dt.timedelta(minutes = 5*i) for i in range(1,13)]
 #itera para escribir los archivos con la rpeduiccion de lluvia 
 for k in Predicciones.keys():
 	DictPred = {}
 	for k2 in Rain24h.keys():
-		DictPred.update({k2:np.hstack([Rain24h[k2][-2:], Predicciones[k][k2]])})
-	DatesNew = [Dates[-2]+dt.timedelta(minutes = 5*i) for i in range(0,14)]
+		DictPred.update({k2:np.hstack([Rain24h[k2][-1:], Predicciones[k][k2]])})
+	DatesNew = [Dates[-1]+dt.timedelta(minutes = 5*i) for i in range(0,13)]
 	RainPred = pd.DataFrame(DictPred, index=pd.to_datetime(DatesNew))
 	#Guardado de la consulta
 	f = open(args.ruta_out + '_cast_'+k+'.rain', 'w')

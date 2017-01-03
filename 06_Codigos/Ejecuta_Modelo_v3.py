@@ -104,7 +104,7 @@ wmf.models.show_storage = 1
 wmf.models.separate_fluxes = 1
 wmf.models.dt = 300
 Caudales = {}
-Rain = wmf.read_mean_rain(args.rutaCampo[:-4]+'.hdr', 13, 0)
+Rain = wmf.read_mean_rain(args.rutaCampo[:-4]+'.hdr')
 #Ejecucion del modelo
 for k in Proyectos:
 	# Se fija que el proyecto tenga calibracion

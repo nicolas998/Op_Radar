@@ -1,3 +1,6 @@
+# Consulta de ultimas 12 horas y Generacion de la lluvia en la proxima hora.
 0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Genera_Lluvia.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/01_Log_Genera_Lluvia.txt 2>&1
+# Interpolacion de campos de lluvia para el intervalo actual y para la proxima hora.
 0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Interpola_Lluvia.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/02_Log_Interpola_Lluvia.txt 2>&1
+# Ejecucion del modelo para el intervalo actual y para la proxima hora.
 0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Ejecucion_Modelo.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/03_Log_Ejecucion_Modelo.txt 2>&1

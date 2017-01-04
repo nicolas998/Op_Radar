@@ -136,7 +136,7 @@ for k in Proyectos:
 				#Ejecuta
 				Results = cu.run_shia(Calib, args.rutaCampo, 13, 1,
 					ruta_storage = Guarda,
-					kinematicN = 7)
+					kinematicN = 8)
 				print 'Aviso: El proyecto '+k+' corrio con la calibracion: '+k2 
 			except:
 				print 'Aviso: El proyecto '+k+' en la calibracion '+k2+' no cuenta con almacenamiento, se establece alm inicial en 0.0'
@@ -153,7 +153,7 @@ for k in Proyectos:
 				#Ejecuta
 				Results = cu.run_shia(Calib, args.rutaCampo, 13, 1,
 					ruta_storage = Guarda,
-					kinematicN = 7)
+					kinematicN = 8)
 			
 			#Copia caudales             
 			Qsim = pnd.DataFrame(Results['Qsim'][1:].T,

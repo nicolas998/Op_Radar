@@ -1,0 +1,10 @@
+Estaciones donde el modelo es comparado, este archivo indica cuales estaciones deben 
+ser leidas, de la siguiente forma: Id de la estación, Nodo correspondiente a la estación 
+dentro de la red hídrica simulada por el modelo, coeficiente y exponente de la 
+estación para la conversión de niveles a caudales.
+
+Nombre		IDest	Nodo	Coef	Expo
+-------------------------------------------
+Aguacatala	94		474		67.99	3.27		
+Aula_Amb	99		371		46.11	1.31
+3_Aguas		106		567		10.316	1.35

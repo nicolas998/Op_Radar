@@ -178,8 +178,6 @@ for k in Caudales.keys():
     for k2 in Caudales[k].keys():
         #Guarda el archivo 
         nombre = args.rutaQsim + 'Qsim_'+k+'_'+k2+'_'+ext+'.qsim'
-        f = open(nombre, 'w')
-        pickle.dump(Caudales[k][k2], f)
-        f.close()
+        Caudales[k][k2].to_msgpack(nombre)
         print 'Se guarda: '+nombre
 

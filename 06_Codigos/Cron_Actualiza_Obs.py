@@ -15,13 +15,13 @@ rutaTemp = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_
 # replace: indica si se va a remplazar toda la serie historica consultada de caudales o no, por defecto se deja en que no 
 replace = False
 # DeltaAtras: Cantidad de pasos en minutos hacia atras para que se realice la consulta 
-DeltaAtras = 10
+DeltaAtras = 60
 
 #-------------------------------------------------------------------
 #LEE PARAM DE LOS CAUDALES OBSERVADOS QUE DEBE CONSULTAR
 #-------------------------------------------------------------------
 #Lectura del archivo con la informacion de las estaciones con caudales.
-f = open(args.rutaEst,'r')
+f = open(rutaEst,'r')
 L = f.readlines()
 f.close()
 #Obtiene en un diccionario las caracteristicas de las estaciones 
@@ -38,7 +38,7 @@ for j in L[7:]:
 #Fechas para la consulta 
 #-------------------------------------------------------------------
 # Obtiene el datetime 
-fecha_1 =  dt.datetime.now() - dt.timedelta(minutes = 10)
+fecha_1 =  dt.datetime.now() - dt.timedelta(minutes = DeltaAtras)
 #Si no es cercano a 5 lo hace igual a un numero multiplo de cinco
 if fecha_1.minute%5 <> 0:
     minute = int(np.floor(fecha_1.minute/10.0) * 10)
@@ -96,5 +96,6 @@ for k in DictCaudal.keys():
         Qjoin[Qactual.index] = Qactual
         #Guarda el archivo historico 
         Qjoin.to_msgpack(rutaFile + L[pos])
+    print '################################################################################################'
     print 'consultado: '+k
 

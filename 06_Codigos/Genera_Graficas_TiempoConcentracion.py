@@ -15,7 +15,10 @@ parser=argparse.ArgumentParser(
 	prog='Consulta_Caudal',
 	formatter_class=argparse.RawDescriptionHelpFormatter,
 	description=textwrap.dedent('''\
-	Actualiza el kml obtenido por el modelo para que sea legible en la pagina del SIATA.
+	Genera las ofiguras dinamicas en plotly del tiempo de concentracion en cada elemento de la cuenca 
+	(parte de la red), de forma adicional genera un pickle con un diccionario en el cual se 
+	encuentra el informe geomorfologico de las cuencas asociadas a cada uno de los nodos 
+	hidrologicos.
         '''))
 #Parametros obligatorios
 parser.add_argument("cuencaNC",help="Binario con la cuenca que se le va a obtener el kml")
@@ -32,16 +35,18 @@ args=parser.parse_args()
 cu = wmf.SimuBasin(0,0,0,0, rute=args.cuencaNC)
 #Carga los nodos 
 nodos = wmf.models.control[wmf.models.control<>0]
+posicion = np.where(wmf.models.control<>0)[1]
 #Obtiene parametros en los demas lugares (nodos)
 x,y = wmf.cu.basin_coordxy(cu.structure, cu.ncells)
 DictParam = {}
-for pos,nodo in zip(cu.hills[0][:10],nodos[:10]):
-    #Calcula la cuenca y param
-    cu2 = wmf.Basin(x[pos-1], y[pos-1], cu.DEM, cu.DIR, umbral=args.umbral)
-    cu2.GetGeo_Parameters(GetPerim = False)
-    #Guarda los parametros
-    DictParam.update({str(nodo):{'Geo':cu2.GeoParameters,
-        'Tc':cu2.Tc}})
+for pos,nodo in zip(posicion,nodos):
+	#Calcula la cuenca y param
+	cu2 = wmf.Basin(x[pos], y[pos], cu.DEM, cu.DIR, umbral=args.umbral)
+	cu2.GetGeo_Parameters(GetPerim = False)
+	#Guarda los parametros
+	DictParam.update({str(nodo):{'Geo':cu2.GeoParameters,
+		'Tc':cu2.Tc}})
+    
 print 'Tiempos de concentracion calculados'
 #-----------------------------------------------------------------------------------------------------
 #Define la funcion de plot de plotly

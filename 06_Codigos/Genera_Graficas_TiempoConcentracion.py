@@ -51,9 +51,9 @@ print 'Tiempos de concentracion calculados'
 #-----------------------------------------------------------------------------------------------------
 #Define la funcion de plot de plotly
 #-----------------------------------------------------------------------------------------------------
-def Plot_Tc_Plotly(TcDict, show = True, rute = None):
+def Plot_Tc_Plotly(TcDict, rute = None):
     #Set de textos
-    x = TcDict.keys()
+    x = [i[:10] for i in TcDict.keys()]
     x.insert(0,'Mediana')
     y = [TcDict[k] for k in TcDict.keys()]
     y.insert(0,np.median(np.array(TcDict.values())))
@@ -78,11 +78,20 @@ def Plot_Tc_Plotly(TcDict, show = True, rute = None):
         )]
     #Estilo de layout
     layout = go.Layout(
-        width = 600,
-        height = 400,
+        width = '100%',
+        height ='100%',
+        autosize = True,
+        margin=go.Margin(
+            l=50,
+            r=20,
+            b=40,
+            t=20,
+            pad=4
+        ),
+        
         xaxis = dict(
             tickfont = dict(
-                size = 14,
+                size = 10,
                 color = 'black'
             ),
 
@@ -91,18 +100,48 @@ def Plot_Tc_Plotly(TcDict, show = True, rute = None):
             title = 'Tiempo [horas]',
             zeroline = False,
             showline = True,
-        )
+        ),
+        
     )
     #figura
     Fig = go.Figure(data = data, layout = layout)
-    if show:
-        iplot(Fig)
     if rute<>None:
         plot(Fig, filename=rute, auto_open= False)
+        #modificacion
+        f = open(rute)
+        L = f.readlines()
+        f.close()
+        #Modificaciones
+        var = '<html style="width: 100%, height: 100%;"><script type="text/javascript">Object.defineProperty(window.navigator, "userAgent", { get: function(){ return "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20120101 Firefox/33.0"; } });Object.defineProperty(window.navigator, "vendor", { get: function(){ return "Mozilla, Inc."; } });Object.defineProperty(window.navigator, "platform", { get: function(){ return "Windows"; } });</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style></style></head><body style="width: 100%, height: 100%;"><script type="text/javascript">/**'
+        L.insert(0, var)
+        #comenta el id
+        L[-1] = L[-1].replace('<div id=', '<!-- <div id=')
+        L[-1] = L[-1].replace('class="plotly-graph-div"></div>', 'class="plotly-graph-div"></div>-->')
+        #Mete el texto que no se bien que hace, define unas funciones para el 100% del size
+        var = 'var d3 = Plotly.d3;var gd3 = d3.select("body").append("div").style({width: "100%",height: "100%"});var gd = gd3.node();'
+        #str1 = '"https://plot.ly";'+L2[0].split('\n')[0]
+        str1 = '"https://plot.ly";'+var
+        L[-1] = L[-1].replace('"https://plot.ly";', str1)
+        #Quita el pedazo que indica el tamano del height y width
+        pos1 = L[-1].index('Plotly.newPlot')
+        pos2 = L[-1].index('[{"text": ')
+        l = L[-1][pos1:pos2]
+        ids = l.split('"')[1]
+        L[-1] = L[-1].replace('"'+ids+'"', 'gd')
+        L[-1] = L[-1].replace('"height": "100%", "width": "100%",', '')
+        #Pega para el resize
+        var = 'window.onresize = function() {Plotly.Plots.resize(gd);};'
+        L[-1] = L[-1].replace('</script></body></html>', var + '</script></body></html>')
+        L[-1] = L[-1].replace('window.removeEventListener("resize");window.addEventListener("resize", function(){Plotly.Plots.resize(document.getElementById(gd));});','')
+        L[-1] = L[-1].replace('"showLink": true', '"showLink": false')
+        #Escribe de nuevo el html
+        f = open(rute,'w')
+        f.writelines(L)
+        f.close()
 #guyarda las figuras
 ruta = args.rutaPlots
-for k in DictParam:
-    Plot_Tc_Plotly(DictParam[k]['Tc'], rute = ruta + 'Tc_'+k+'.html', show=False)
+for k in DictParam.keys():
+    Plot_Tc_Plotly(DictParam[k]['Tc'], rute = ruta + 'Tc_'+k+'.html')
     print k
 print 'Figuras de tiempo de concentracion guardadas'
 #Guarda el diccionario con las propiedades de los tramos

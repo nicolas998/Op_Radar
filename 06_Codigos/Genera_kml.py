@@ -220,7 +220,7 @@ if args.geomorfo <> None:
 			#tiempo de concentracion
 			var = '%.3f' % Tc
 			LinKml.insert(pos, '\t\t<SimpleData name="TiempoC">'+var+'</SimpleData>\n')
-			var = args.tiempoC + 'Tc_'+str(pos)+'.html'
+			var = args.tiempoC + 'Tc_'+str(cont)+'.html'
 			LinKml.insert(pos, '\t\t<SimpleData name="FiguraTiempoC">'+var+'</SimpleData>\n')
 			# Actualiza para buscar el siguiente 
 			cont += 1

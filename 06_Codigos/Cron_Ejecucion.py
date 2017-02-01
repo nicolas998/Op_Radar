@@ -101,26 +101,42 @@ os.system(comando)
 #-------------------------------------------------------------------
 #Actualiza lluvia
 #-------------------------------------------------------------------
+#Ruta ejecucion 
+rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Actualiza_MeanRain_Hist.py'
+rutaRain = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/'
+#Ejecucion
+comando = rutaEjec+' '+rutaRain 
+os.system(comando)
 
+#-------------------------------------------------------------------
+#Actualiza Estados de almacenamiento del modelo historicos
+#-------------------------------------------------------------------
+#Ruta ejecucion 
+rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Actualiza_MeanStorage_Hist.py'
+rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento'
+rutaStorageH = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/02_Storage_History/'
+#Ejecucion
+comando = rutaEjec+' '+rutaStorageH+' '+rutaStorage
+os.system(comando)
 
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-print '###################################################### GRAFICAS DEL MODELO ########################################################'
-
-
-#-------------------------------------------------------------------
-#Serie de tiempod e caudales simulados 
-#-------------------------------------------------------------------
-
+print '###################################################### Actualizacion Caudales ########################################################'
 
 #-------------------------------------------------------------------
-#Mapa de caudales simulados 
+#Actualiza json
 #-------------------------------------------------------------------
+#Rutas
+rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Genera_json.py'
+rutaParam = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/Qsim_001_003'
+rutaHist = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/02_Stream_History/Qsim_001_003'
+rutaJson = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/json/Caudales_Simulados.json'
 
+#Ejecucion
+comando = rutaEjec+' '+rutaParam+' '+rutaHist+' '+rutaJson
+os.system(comando)
+print 'Json Actualizado con caudales simulados de ultimo intervalo'
 
-#-------------------------------------------------------------------
-#Mapa de humedad en la cuenca
-#-------------------------------------------------------------------

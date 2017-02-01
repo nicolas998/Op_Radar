@@ -1,2 +1,2 @@
-0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_ensayo.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/00_Log_General.txt 2>&1
+0-59/5 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Ejecucion.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/00_Log_General.txt 2>&1
 0-59/59 * * * * python /home/nicolas/Operacional/Op_Interpolated/06_Codigos/Cron_Actualiza_Obs.py > /home/nicolas/Operacional/Op_Interpolated/07_Logs_Ejecucion/01_Log_Consulta_Qobs.txt 2>&1

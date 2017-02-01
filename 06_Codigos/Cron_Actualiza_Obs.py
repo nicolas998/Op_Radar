@@ -25,14 +25,16 @@ f = open(rutaEst,'r')
 L = f.readlines()
 f.close()
 #Obtiene en un diccionario las caracteristicas de las estaciones 
+#Obtiene en un diccionario las caracteristicas de las estaciones 
 DictCaudal = {}
 for j in L[7:]:
     Data = j.split(',')
-    DictCaudal.update({Data[0]:{}})
-    DictCaudal[Data[0]].update({'ID':int(Data[1])})
-    DictCaudal[Data[0]].update({'Nodo':int(Data[2])})
-    DictCaudal[Data[0]].update({'Coef':float(Data[3])})
-    DictCaudal[Data[0]].update({'Expo':float(Data[4])})
+    if Data[0].startswith('#') == False:
+        DictCaudal.update({Data[0]:{}})
+        DictCaudal[Data[0]].update({'ID':int(Data[1])})
+        DictCaudal[Data[0]].update({'Nodo':int(Data[2])})
+        DictCaudal[Data[0]].update({'Coef':float(Data[3])})
+        DictCaudal[Data[0]].update({'Expo':float(Data[4])})
 
 #-------------------------------------------------------------------
 #Fechas para la consulta 
@@ -84,6 +86,7 @@ for k in DictCaudal.keys():
     comando = ('/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Consulta_Caudal.py '+fecha1+' '+fecha2+' '
         +rutaFin+' '+idEst+' -t 5min -1 '+hora_1+' -2 '+hora_2
         +' -c '+c+' -e '+e)
+    print comando
     os.system(comando)
     #Si ya existe le adjunta la nueva consulta 
     if Existe:

@@ -6,6 +6,10 @@ from multiprocessing import Pool
 import numpy as np
 import pickle 
 
+# Texto Fecha: el texto de fecha que se usa para guardar algunos archivos de figuras.
+dateText = dt.datetime.now().strftime('%Y%m%d%H%M')
+
+
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -140,3 +144,43 @@ comando = rutaEjec+' '+rutaParam+' '+rutaHist+' '+rutaJson
 os.system(comando)
 print 'Json Actualizado con caudales simulados de ultimo intervalo'
 
+
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+print '###################################################### Figuras de mapas que siempre salen ########################################################'
+
+#Descripcion:
+#-------------------------------------------------------------------
+# Grafica cada 5 min la humedad en toda la cuenca. Se utiliza llamando a Genera_Mapa_Humedad.py
+# este apartado necesita de la cuenca.nc y de un archivo de almacenamiento.StObin, ese debe ser 
+# seleccionado por el usuario de acuerdo a lo que este considere (la calibracion mas adecuada)
+# Finalmente se debe elegir donde se aloja la figura y el archivo de texto con las coordenadas.
+
+#Rutas
+rutaCuenca = '/home/nicolas/Operacional/Op_Interpolated/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Genera_Mapa_Humedad.py'
+rutaRes = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/humedad/' + dateText + '_hu.png'
+rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/CuAmva_001_003.StObin'
+
+#comando de ejecucion
+comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
+os.system(comando)
+print 'Se ha escrito el mapa de humeda en:' + rutaRes
+
+#Descripcion:
+#-------------------------------------------------------------------
+# Grafica cada 5 min un estimado de la cantidad de agua que fluye por cada una de las vertientes 
+# de la cuenca
+
+#Rutas
+rutaCuenca = '/home/nicolas/Operacional/Op_Interpolated/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Genera_Mapa_Caudal.py'
+rutaRes = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/mapQsim/Red_Qsim.png'
+rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/CuAmva_001_001.StObin'
+
+#comando de ejecucion
+comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
+os.system(comando)
+print 'Se ha escrito el mapa de caudales en:' + rutaRes

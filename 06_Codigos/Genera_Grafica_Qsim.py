@@ -31,7 +31,7 @@ args=parser.parse_args()
 #Rutas por defecto
 ruta_qsim = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/02_Stream_History/'
 ruta_rain = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/Mean_Rain_History.rainh'
-ruta_qobs = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_Observed/'
+ruta_qobs = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_Observed/Qobs_'
 ruta_figura = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/Qsim/'
 
 
@@ -44,6 +44,10 @@ a = args.fechai
 fechai = a[0:4]+'-'+a[4:6]+'-'+a[6:8]+' '+a[8:10]+':'+a[10:12]+':'+a[12:14]
 a = args.fechaf
 fechaf = a[0:4]+'-'+a[4:6]+'-'+a[6:8]+' '+a[8:10]+':'+a[10:12]+':'+a[12:14]
+#fechaf = args.fechaf
+#fechai = args.fechai
+
+print fechaf
 
 #Lista caudales simulados
 LQsim = os.listdir(ruta_qsim)
@@ -63,6 +67,7 @@ RainText = ['%.2fmm' % i for i in Rain.values.T[0]]
 #Carga observados y lluvia
 if args.observado <> 'Nada':
 	Qobs = pnd.read_msgpack(ruta_qobs + args.observado)
+	print Qobs.size
 	Qobs = Qobs[fechai:fechaf]
 	QobsText = ['%.2fm3/s' % i for i in Qobs.values]
 #Encuentra min y max para establecer el rango de grafico 

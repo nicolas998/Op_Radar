@@ -47,7 +47,7 @@ fechaf = a[0:4]+'-'+a[4:6]+'-'+a[6:8]+' '+a[8:10]+':'+a[10:12]+':'+a[12:14]
 #fechaf = args.fechaf
 #fechai = args.fechai
 
-print fechaf
+
 
 #Lista caudales simulados
 LQsim = os.listdir(ruta_qsim)
@@ -67,7 +67,6 @@ RainText = ['%.2fmm' % i for i in Rain.values.T[0]]
 #Carga observados y lluvia
 if args.observado <> 'Nada':
 	Qobs = pnd.read_msgpack(ruta_qobs + args.observado)
-	print Qobs.size
 	Qobs = Qobs[fechai:fechaf]
 	QobsText = ['%.2fm3/s' % i for i in Qobs.values]
 #Encuentra min y max para establecer el rango de grafico 
@@ -81,9 +80,17 @@ for i in DictQsim.keys():
 # Prepara datos para ingresarlos en la figura
 #-----------------------------------------------------------------------------------------------------
 #colores de las simulaciones
-Colors = []
-for i,j in zip(np.linspace(0,230,100), np.linspace(120,200,100)):
-    Colors.append('rgb('+str(i)+','+str(j)+',230)')
+#Colors = []
+#for i,j in zip(np.linspace(0,230,100), np.linspace(120,200,100)):
+#    Colors.append('rgb('+str(i)+','+str(j)+',230)')
+Colors = ['rgb(82,183,196)','rgb(55,123,148)',
+	'rgb(43,72,105)', 'rgb(200,209,93)',
+	'rgb(34,71,94)', 'rgb(31,115,116)',
+	'rgb(39,165,132)', 'rgb(249,230,57)',
+	'rgb(113,111,111)', 'rgb(32,34,72)',
+	'rgb(43,72,105)', 'rgb(31,115,116)',
+	'rgb(82,183,196)','rgb(246,162,16)',
+	'rgb(236,99,27)']
 
 data =[]
 for k,c in zip(DictQsim.keys(), Colors):
@@ -107,7 +114,7 @@ trace = go.Scatter(
     yaxis='y2',
     name = 'Precip',
     line=dict(width=0.5,
-        color='rgb(0, 0, 255)'),
+        color='rgb(32,34,72)'),
     hoverinfo = 'x+text',
     text = RainText
 )
@@ -117,10 +124,11 @@ if args.observado <> 'Nada':
 	trace = go.Scatter(
 	    y = Qobs.values,
 	    x = Qobs.index.to_pydatetime(),
-	    mode = 'lines+markers',
+	    #mode = 'lines+markers',
 	    name = 'Observado',
 	    line = dict(
-	        color = 'rgb(192,21,61)'
+	        color = 'rgb(139,187,116)',
+	        dash = 'dash'
 	    ),
 	    hoverinfo = 'x+text',
 	    text = QobsText

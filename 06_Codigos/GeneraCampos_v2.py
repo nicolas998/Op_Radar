@@ -25,6 +25,7 @@ parser.add_argument("fechaI",help="(YYYY-MM-DD) Fecha de inicio de imagenes")
 parser.add_argument("fechaF",help="(YYYY-MM-DD) Fecha de fin de imagenes")
 parser.add_argument("cuenca",help="(Obligatorio) Ruta de la cuenca en formato .nc")
 parser.add_argument("binCampos",help="(Obligatorio) Ruta donde se guarda el binario de lluvia")
+parser.add_argument("rutaRadar", help = "Ruta donde estan las imagenes reproyectadas de radar")
 parser.add_argument("-t","--dt",help="(Opcional) Delta de t en segundos",default = 300,type=float)
 parser.add_argument("-u","--umbral",help="(Opcional) Umbral de lluvia minima",default = 0.0,type=float)
 parser.add_argument("-v","--verbose",help="Informa sobre la fecha que esta agregando", 
@@ -35,6 +36,7 @@ parser.add_argument("-o","--old",help="Si el archivo a generar es viejo, y se bu
 	default = 'no')
 parser.add_argument("-1","--hora_1",help="Hora inicial de lectura de los archivos",default= None )
 parser.add_argument("-2","--hora_2",help="Hora final de lectura de los archivos",default= None )
+
 
 #lee todos los argumentos
 args=parser.parse_args()
@@ -54,10 +56,10 @@ ListDays = []
 ListRutas = []
 for d in datesDias:
 	try:
-		L = os.listdir('/mnt/RADAR/reprojected_data/'+d)
+		L = os.listdir(args.rutaRadar+d)
 		L = [l for l in L if any(map(l.startswith,Anos)) and l.endswith('010_120.bin')]
 		ListDays.extend(L)
-		Ruta = ['/mnt/RADAR/reprojected_data/'+d+'/'+l for l in L 
+		Ruta = [args.rutaRadar+d+'/'+l for l in L 
 			if any(map(l.startswith,Anos)) and l.endswith('010_120.bin')]
 		ListRutas.extend(Ruta)
 	except:

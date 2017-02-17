@@ -43,6 +43,7 @@ f.close()
 # Obtiene el elemento en Datetime
 fecha = L[6].split()[-1]
 fecha = dt.datetime.strptime(fecha, '%Y-%m-%d-%H:%M')
+print fecha
 
 #------------------------------------------------------------------------------
 #LISTA DE CAMPOS DE EXTRAPOLACION DISPONIBLES
@@ -66,7 +67,7 @@ for i in ListaNames[::-1]:
 #Saca la lista de los elementos que va a evaluar y organiza sus fechas
 ListaFin = [i for i in Lista if i.startswith(FechaStart)]
 Fechas = [dt.datetime.strptime(i[:12], '%Y%m%d%H%M')+dt.timedelta(minutes = int(i[-7:-4])) for i in ListaFin]
-Fechas = [i -dt.timedelta(hours = 5) for i in Fechas]
+Fechas = [i - dt.timedelta(hours = 5) for i in Fechas]
 #Obtiene el punto de inicio para que las imagenes sean chevres 
 Diferencias = [i - fecha for i in Fechas]
 Segundos = np.array([i.seconds for i in Diferencias])

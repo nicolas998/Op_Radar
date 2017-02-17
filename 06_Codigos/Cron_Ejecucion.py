@@ -49,7 +49,7 @@ print '01. Campo de lluvia actual actualizado '
 #Campo de lluvia extrapolado
 #-------------------------------------------------------------------
 rutaCodigo = '/home/nicolas/Operacional/Op_Radar/06_Codigos/GeneraCampos_Extrapol.py'
-rutaHeader = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/CampoRain_Normal.hdr'
+rutaHeader = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_Normal.hdr'
 rutaExtrapol = '/media/nicolas/Extrapol/'
 
 comando = rutaCodigo+' '+rutaCuenca+' '+rutaBinario+' '+rutaHeader+' '+rutaExtrapol

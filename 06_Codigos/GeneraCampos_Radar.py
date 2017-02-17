@@ -40,7 +40,7 @@ parser.add_argument("-2","--hora_2",help="Hora final de lectura de los archivos"
 
 #lee todos los argumentos
 args=parser.parse_args()
-
+print 'holi'
 #-------------------------------------------------------------------------------------------------------------------------------------
 #OBTIENE FECHAS Y DEJA ESE TEMA LISTO 
 #-------------------------------------------------------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ hora_2 = fecha_2.strftime('%H:%M')
 #-------------------------------------------------------------------
 rutaCodigo = '/home/nicolas/Operacional/Op_Radar/06_Codigos/GeneraCampos_Radar.py'
 rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
-rutaBinario = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_Normal'
+rutaBinario = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain'
 rutaRadar = '/media/nicolas/Radar/'
 
 #-------------------------------------------------------------------
@@ -49,7 +49,7 @@ print '01. Campo de lluvia actual actualizado '
 #Campo de lluvia extrapolado
 #-------------------------------------------------------------------
 rutaCodigo = '/home/nicolas/Operacional/Op_Radar/06_Codigos/GeneraCampos_Extrapol.py'
-rutaHeader = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_Normal.hdr'
+rutaHeader = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_media.hdr'
 rutaExtrapol = '/media/nicolas/Extrapol/'
 
 comando = rutaCodigo+' '+rutaCuenca+' '+rutaBinario+' '+rutaHeader+' '+rutaExtrapol
@@ -60,43 +60,50 @@ print '02. Campo extrapolado agregado al campo actual de lluvia de la cuenca.'
 ##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-#print '###################################################### EJECUCION DEL MODELO ########################################################'
+print '\n'
+print '###################################################### EJECUCION DEL MODELO ########################################################'
 
-#rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Ejecuta_Modelo_v3.py'
-#rutaOper = '/home/nicolas/Operacional/Op_Interpolated/'
-#rutaCampos = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/CampoIDW_'
-#rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/'
-#rutaQsim = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/'
+rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Ejecuta_Modelo_Radar.py'
+rutaOper = '/home/nicolas/Operacional/Op_Radar/'
+rutaCampos = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_'
+rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/'
+rutaQsim = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/'
 
-##-------------------------------------------------------------------
-##Ejecuta para todos los escenarios
-##-------------------------------------------------------------------
-#Lista = []
-#for escena in ['bajo', 'alto']:
-	#Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+escena+'.bin '+rutaStorage+' '+rutaQsim)
-#Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+'normal.bin '+rutaStorage+' '+rutaQsim+' -s')
+#-------------------------------------------------------------------
+#Ejecuta para todos los escenarios
+#-------------------------------------------------------------------
+Lista = []
+for escena in ['baja', 'alta']:
+	Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+escena+'.bin '+rutaStorage+' '+rutaQsim)
+Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+'media.bin '+rutaStorage+' '+rutaQsim+' -s')
+#Ejecucion
+P = Pool(processes = 3)
+r = P.map(os.system, Lista)
+print '------------------------------------------'
+print '03. Modelo Ejecutado'
+print '\n'
 
-##Ejecucion
-#P = Pool(processes = 3)
-#r = P.map(os.system, Lista)
 
-##-------------------------------------------------------------------
-##Actualiza caudales historicos simulados 
-##-------------------------------------------------------------------
-##Rutas de ejecucion
-#rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Actualiza_Caudales_Hist.py'
-#rutaQhist = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/02_Stream_History/'
-#rutaQsim = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/'
-##Ejecucion 
-#comando = rutaEjec+' '+rutaQhist+' '+rutaQsim
-#os.system(comando) 
+#-------------------------------------------------------------------
+#Actualiza caudales historicos simulados 
+#-------------------------------------------------------------------
+#Rutas de ejecucion
+rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Actualiza_Caudales_Hist.py'
+rutaQhist = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/02_Stream_History/'
+rutaQsim = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/'
+#Ejecucion 
+comando = rutaEjec+' '+rutaQhist+' '+rutaQsim
+os.system(comando) 
+print '04. Caudales historicos guardados'
+print '\n'
+
 
 ##-------------------------------------------------------------------
 ##Actualiza lluvia
 ##-------------------------------------------------------------------
 ##Ruta ejecucion 
-#rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Actualiza_MeanRain_Hist.py'
-#rutaRain = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/'
+#rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Actualiza_MeanRain_Hist.py'
+#rutaRain = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/'
 ##Ejecucion
 #comando = rutaEjec+' '+rutaRain 
 #os.system(comando)

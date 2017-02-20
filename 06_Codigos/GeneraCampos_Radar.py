@@ -111,8 +111,13 @@ if args.old == 'si':
 
 #Itera sobre las fechas para actualizar el binario de campos
 datesDt = datesDt.to_pydatetime()
+rvec = {'media':[], 
+		'baja': [], 
+		'alta': []}
 for dates,pos in zip(datesDt[1:],PosDates):
-	rvec = np.zeros(cuAMVA.ncells)
+	rv = {'media':np.zeros(cuAMVA.ncells),
+		'baja': np.zeros(cuAMVA.ncells),
+		'alta': np.zeros(cuAMVA.ncells)}
 	try:
 		for p in pos:
 			if args.super_verbose:
@@ -120,20 +125,35 @@ for dates,pos in zip(datesDt[1:],PosDates):
 			#Lee la imagen de radar para esa fecha
 			rad.read_bin(ListRutas[p])
 			rad.detect_clouds(umbral=500)
-	                rad.ref = rad.ref * rad.binario
-        	        rad.DBZ2Rain()
-                	rvec += cuAMVA.Transform_Map2Basin(rad.ppt/12.0,radar.RadProp)
+			rad.ref = rad.ref * rad.binario
+			rad.DBZ2Rain()
+			#Escribe para cada escenario 
+			for k in rad.ppt.keys():
+				rv[k] += cuAMVA.Transform_Map2Basin(rad.ppt[k]/12.0,radar.RadProp)		
 	except:
-		rvec = np.zeros(cuAMVA.ncells)
-	#Escribe el binario
-	dentro = cuAMVA.rain_radar2basin_from_array(vec = rvec,
-		ruta_out = args.binCampos,
-		fecha = dates-dt.timedelta(hours = 5),
-		dt = args.dt,
-		umbral = args.umbral)
-	if args.verbose:
-		print dates,rvec.mean(), dentro
-		print '-----------------------------------------'
-cuAMVA.rain_radar2basin_from_array(status = 'close',
-        ruta_out = args.binCampos)
+		pass
+	#Agrega el campo para el intervalo 
+	for k in rv.keys():
+		rvec[k].append(rv[k])
+
+#Escribe el binario
+for k in rvec.keys():	
+	#Edita la ruta 
+	ruta = args.binCampos + '_'+k
+	#Escribe el binario 
+	for v, dates in zip(rvec[k], datesDt[1:]):
+		dentro = cuAMVA.rain_radar2basin_from_array(vec = v,
+			ruta_out = ruta,
+			fecha = dates-dt.timedelta(hours = 5),
+			dt = args.dt,
+			umbral = args.umbral)
+		if args.verbose:
+			print dates,v.mean(), dentro
+			print '-----------------------------------------'
+	#Cierra el binario y escribe header
+	cuAMVA.rain_radar2basin_from_array(status = 'close',
+		ruta_out = ruta)
+	#Reinicia condiciones para almacenamiento
+	cuAMVA.rain_radar2basin_from_array(status = 'reset')
+	
 

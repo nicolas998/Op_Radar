@@ -33,14 +33,13 @@ parser.add_argument("-v","--verbose",help="Informa sobre la fecha que esta agreg
 parser.add_argument("-s","--super_verbose",help="Imprime para cada posicion las imagenes que encontro",
 	action = 'store_true')
 parser.add_argument("-o","--old",help="Si el archivo a generar es viejo, y se busca es actualizarlo y no borrarlo",
-	default = 'no')
+	default = False)
 parser.add_argument("-1","--hora_1",help="Hora inicial de lectura de los archivos",default= None )
 parser.add_argument("-2","--hora_2",help="Hora final de lectura de los archivos",default= None )
 
 
 #lee todos los argumentos
 args=parser.parse_args()
-print 'holi'
 #-------------------------------------------------------------------------------------------------------------------------------------
 #OBTIENE FECHAS Y DEJA ESE TEMA LISTO 
 #-------------------------------------------------------------------------------------------------------------------------------------
@@ -105,10 +104,6 @@ rad = radar.radar_process()
 #GENERA EL BINARIO DE CAMPOS PARA LA CUENCA 
 #-------------------------------------------------------------------------------------------------------------------------------------
 
-#si el binario el viejo, establece las variables para actualizar
-if args.old == 'si':
-	cuAMVA.rain_radar2basin_from_array(status='old',ruta_out=args.binCampos)
-
 #Itera sobre las fechas para actualizar el binario de campos
 datesDt = datesDt.to_pydatetime()
 rvec = {'media':[], 
@@ -140,6 +135,9 @@ for dates,pos in zip(datesDt[1:],PosDates):
 for k in rvec.keys():	
 	#Edita la ruta 
 	ruta = args.binCampos + '_'+k
+	#si el binario el viejo, establece las variables para actualizar
+	if args.old:
+		cuAMVA.rain_radar2basin_from_array(status='old',ruta_out=ruta)
 	#Escribe el binario 
 	for v, dates in zip(rvec[k], datesDt[1:]):
 		dentro = cuAMVA.rain_radar2basin_from_array(vec = v,

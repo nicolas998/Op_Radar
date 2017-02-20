@@ -79,31 +79,41 @@ pos = np.argmin(Segundos)
 #inicia la variable de radar y la variable cuenca 
 cuAMVA = wmf.SimuBasin(rute = args.cuenca)
 rad = radar.radar_process()
-#Si el archivo es viejo sigue escribiendo sobre el 
-if args.old:
-	cuAMVA.rain_radar2basin_from_array(status='old',ruta_out=args.binCampos)
+	
 #Trabaja sobre la lista para adicionar campos
+rvec = {'media':[], 
+		'baja': [], 
+		'alta': []}
 for c,l in enumerate(ListaFin[pos:pos+12]):
 	#convierte imagen de radar en lluvia	
 	rad.read_bin(args.ruta+l)
 	rad.detect_clouds(umbral=500)
 	rad.ref = rad.ref * rad.binario
 	rad.DBZ2Rain()
-	rvec = cuAMVA.Transform_Map2Basin(rad.ppt/12.0,radar.RadProp)
-	#Obtiene la fecha
-	#date = dt.datetime.strptime(l[:12],'%Y%m%d%H%M') - dt.timedelta(hours = 5)
-	#Pone la lluvia de radar en el binario de la cuenca 
-	dentro = cuAMVA.rain_radar2basin_from_array(vec = rvec,
-		ruta_out = args.binCampos,
-		fecha = fecha + dt.timedelta(minutes = 5*(c+1)),
-		dt = 300,
-		umbral = args.umbral)
+	for k in ['media','baja','alta']:
+		rv = cuAMVA.Transform_Map2Basin(rad.ppt[k]/12.0,radar.RadProp)
+		rvec[k].append(rv)
+	#Dice info sobre lo que hace
 	if args.verbose:
-		print date+dt.timedelta(minutes = 5*(c+1)),rvec.mean(), dentro
+		print l, len(rvec[k])
 		print '-----------------------------------------'
 
-# Cierra el binario y construye el hdr
-cuAMVA.rain_radar2basin_from_array(status = 'close',
-        ruta_out = args.binCampos)
+#Escribe los archivos binarios con la informacion de precpitaciojn extrapolada
+for k in ['media','baja','alta']:
+	#Ruta 
+	ruta = args.binCampos + '_'+k
+	#Toma las caracteristicas del archivo viejo
+	if args.old:
+		cuAMVA.rain_radar2basin_from_array(status='old',ruta_out=ruta)
+	#Actualiza
+	for c,v in enumerate(rvec[k]):
+		dentro = cuAMVA.rain_radar2basin_from_array(vec = v,
+			ruta_out = ruta,
+			fecha = fecha + dt.timedelta(minutes = 5*(c+1)),
+			dt = 300,
+			umbral = args.umbral)
+	# Cierra el binario y construye el hdr, luego reinicia el contador de radar
+	cuAMVA.rain_radar2basin_from_array(status = 'close',ruta_out = ruta)
+	cuAMVA.rain_radar2basin_from_array(status = 'reset')
 
 

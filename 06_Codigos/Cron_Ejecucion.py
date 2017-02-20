@@ -98,26 +98,27 @@ print '04. Caudales historicos guardados'
 print '\n'
 
 
-##-------------------------------------------------------------------
-##Actualiza lluvia
-##-------------------------------------------------------------------
-##Ruta ejecucion 
-#rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Actualiza_MeanRain_Hist.py'
-#rutaRain = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/'
-##Ejecucion
-#comando = rutaEjec+' '+rutaRain 
-#os.system(comando)
+#-------------------------------------------------------------------
+#Actualiza lluvia
+#-------------------------------------------------------------------
+#Ruta ejecucion 
+rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Actualiza_MeanRain_Hist.py'
+rutaRain = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/'
+#Ejecucion
+comando = rutaEjec+' '+rutaRain 
+os.system(comando)
 
-##-------------------------------------------------------------------
-##Actualiza Estados de almacenamiento del modelo historicos
-##-------------------------------------------------------------------
-##Ruta ejecucion 
-#rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Actualiza_MeanStorage_Hist.py'
-#rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento'
-#rutaStorageH = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/02_Storage_History/'
-##Ejecucion
-#comando = rutaEjec+' '+rutaStorageH+' '+rutaStorage
-#os.system(comando)
+#-------------------------------------------------------------------
+#Actualiza Estados de almacenamiento del modelo historicos
+#-------------------------------------------------------------------
+#Ruta ejecucion 
+rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Actualiza_MeanStorage_Hist.py'
+rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento'
+rutaStorageH = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/02_Storage_History/'
+print '------------------------------------------'
+#Ejecucion
+comando = rutaEjec+' '+rutaStorageH+' '+rutaStorage
+os.system(comando)
 
 
 ##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||

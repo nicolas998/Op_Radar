@@ -113,7 +113,7 @@ os.system(comando)
 #-------------------------------------------------------------------
 #Ruta ejecucion 
 rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Actualiza_MeanStorage_Hist.py'
-rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento'
+rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/'
 rutaStorageH = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/02_Storage_History/'
 print '------------------------------------------'
 #Ejecucion
@@ -121,49 +121,49 @@ comando = rutaEjec+' '+rutaStorageH+' '+rutaStorage
 os.system(comando)
 
 
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-#print '###################################################### Actualizacion Caudales ########################################################'
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+print '###################################################### Actualizacion Caudales ########################################################'
 
-##-------------------------------------------------------------------
-##Actualiza json
-##-------------------------------------------------------------------
-##Rutas
-#rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Genera_json.py'
-#rutaParam = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/Qsim_001_003'
-#rutaHist = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/02_Stream_History/Qsim_001_003'
-#rutaJson = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/json/Caudales_Simulados.json'
+#-------------------------------------------------------------------
+#Actualiza json
+#-------------------------------------------------------------------
+#Rutas
+rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_json.py'
+rutaParam = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/Qsim_001_003'
+rutaHist = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/02_Stream_History/Qsim_001_003'
+rutaJson = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/json/Caudales_Simulados.json'
 
-##Ejecucion
-#comando = rutaEjec+' '+rutaParam+' '+rutaHist+' '+rutaJson
-#os.system(comando)
-#print 'Json Actualizado con caudales simulados de ultimo intervalo'
+#Ejecucion
+comando = rutaEjec+' '+rutaParam+' '+rutaHist+' '+rutaJson
+os.system(comando)
+print 'Json Actualizado con caudales simulados de ultimo intervalo'
 
 
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-#print '###################################################### Figuras de mapas que siempre salen ########################################################'
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+print '###################################################### Figuras de mapas que siempre salen ########################################################'
 
-##Descripcion:
-##-------------------------------------------------------------------
-## Grafica cada 5 min la humedad en toda la cuenca. Se utiliza llamando a Genera_Mapa_Humedad.py
-## este apartado necesita de la cuenca.nc y de un archivo de almacenamiento.StObin, ese debe ser 
-## seleccionado por el usuario de acuerdo a lo que este considere (la calibracion mas adecuada)
-## Finalmente se debe elegir donde se aloja la figura y el archivo de texto con las coordenadas.
+#Descripcion:
+#-------------------------------------------------------------------
+# Grafica cada 5 min la humedad en toda la cuenca. Se utiliza llamando a Genera_Mapa_Humedad.py
+# este apartado necesita de la cuenca.nc y de un archivo de almacenamiento.StObin, ese debe ser 
+# seleccionado por el usuario de acuerdo a lo que este considere (la calibracion mas adecuada)
+# Finalmente se debe elegir donde se aloja la figura y el archivo de texto con las coordenadas.
 
-##Rutas
-#rutaCuenca = '/home/nicolas/Operacional/Op_Interpolated/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
-#rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Genera_Mapa_Humedad.py'
-#rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/humedad/'
-#rutaRes = rutaFolder + dateText + '_hu.png'
-#rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/CuAmva_001_003.StObin'
+#Rutas
+rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_Mapa_Humedad.py'
+rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/humedad/'
+rutaRes = rutaFolder + dateText + '_hu.png'
+rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/CuAmva_001_003.StObin'
 
-##comando de ejecucion
-#comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
+#comando de ejecucion
+comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
 #os.system(comando)
 #print 'Se ha escrito el mapa de humeda en:' + rutaRes
 ##Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 

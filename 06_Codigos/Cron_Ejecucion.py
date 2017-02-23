@@ -164,48 +164,48 @@ rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/CuAmv
 
 #comando de ejecucion
 comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
-#os.system(comando)
-#print 'Se ha escrito el mapa de humeda en:' + rutaRes
-##Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
-#comando = 'cp '+rutaRes+' /media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/humedad/MapaHumedad.png'
-#os.system(comando)
-#print 'Mapa humedad '+dateText+'_hu.png se ha copiado a MapaHumedad.png' 
+os.system(comando)
+print 'Se ha escrito el mapa de humeda en:' + rutaRes
+#Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
+comando = 'cp '+rutaRes+' /media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/humedad/MapaHumedad.png'
+os.system(comando)
+print 'Mapa humedad '+dateText+'_hu.png se ha copiado a MapaHumedad.png' 
 ##Borra los archivos que tengan mas de 24 horas de viejos.
-#Lista = os.listdir(rutaFolder)
-#Lista = [i for i in Lista if i.endswith('_hu.png')]
-#Lista.sort()
-#Lista2 = Lista[:-24]
-#if len(Lista2)>0:
-	#comando  = ['rm '+rutaFolder+i for i in Lista2]
-	#map(os.system, comando)
-	#print 'Se han borrado mapas con antiguedad mayor a 24 horas'
+Lista = os.listdir(rutaFolder)
+Lista = [i for i in Lista if i.endswith('_hu.png')]
+Lista.sort()
+Lista2 = Lista[:-24]
+if len(Lista2)>0:
+	comando  = ['rm '+rutaFolder+i for i in Lista2]
+	map(os.system, comando)
+	print 'Se han borrado mapas con antiguedad mayor a 24 horas'
 
-##Descripcion:
-##-------------------------------------------------------------------
-## Grafica cada 5 min un estimado de la cantidad de agua que fluye por cada una de las vertientes 
-## de la cuenca
+#Descripcion:
+#-------------------------------------------------------------------
+# Grafica cada 5 min un estimado de la cantidad de agua que fluye por cada una de las vertientes 
+# de la cuenca
 
-##Rutas
-#rutaCuenca = '/home/nicolas/Operacional/Op_Interpolated/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
-#rutaEjec = '/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Genera_Mapa_Caudal.py'
-#rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/mapQsim/'
-#rutaRes = rutaFolder + dateText + '_Qsim.png'
-#rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/CuAmva_001_001.StObin'
+#Rutas
+rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_Mapa_Caudal.py'
+rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/mapQsim/'
+rutaRes = rutaFolder + dateText + '_Qsim.png'
+rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/CuAmva_001_001.StObin'
 
 ##comando de ejecucion
-#comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
-#os.system(comando)
-#print 'Se ha escrito el mapa de caudales en:' + rutaRes
-##Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
-#comando = 'cp '+rutaRes+' /media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/mapQsim/RedQsim.png'
-#os.system(comando)
-#print 'Mapa Red hidrica simulada '+dateText+'_Qsim.png se ha copiado a RedQsim.png' 
-##Borra los archivos que tengan mas de 24 horas de viejos.
-#Lista = os.listdir(rutaFolder)
-#Lista = [i for i in Lista if i.endswith('_Qsim.png')]
-#Lista.sort()
-#Lista2 = Lista[:-24]
-#if len(Lista2)>0:
-	#comando  = ['rm '+rutaFolder+i for i in Lista2]
-	#map(os.system, comando)
-	#print 'Se han borrado mapas con antiguedad mayor a 24 horas'
+comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
+os.system(comando)
+print 'Se ha escrito el mapa de caudales en:' + rutaRes
+#Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
+comando = 'cp '+rutaRes+' /media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/mapQsim/RedQsim.png'
+os.system(comando)
+print 'Mapa Red hidrica simulada '+dateText+'_Qsim.png se ha copiado a RedQsim.png' 
+#Borra los archivos que tengan mas de 24 horas de viejos.
+Lista = os.listdir(rutaFolder)
+Lista = [i for i in Lista if i.endswith('_Qsim.png')]
+Lista.sort()
+Lista2 = Lista[:-24]
+if len(Lista2)>0:
+	comando  = ['rm '+rutaFolder+i for i in Lista2]
+	map(os.system, comando)
+	print 'Se han borrado mapas con antiguedad mayor a 24 horas'

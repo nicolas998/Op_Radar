@@ -174,7 +174,7 @@ print 'Mapa humedad '+dateText+'_hu.png se ha copiado a MapaHumedad.png'
 Lista = os.listdir(rutaFolder)
 Lista = [i for i in Lista if i.endswith('_hu.png')]
 Lista.sort()
-Lista2 = Lista[:-24]
+Lista2 = Lista[:-288]
 if len(Lista2)>0:
 	comando  = ['rm '+rutaFolder+i for i in Lista2]
 	map(os.system, comando)
@@ -204,7 +204,7 @@ print 'Mapa Red hidrica simulada '+dateText+'_Qsim.png se ha copiado a RedQsim.p
 Lista = os.listdir(rutaFolder)
 Lista = [i for i in Lista if i.endswith('_Qsim.png')]
 Lista.sort()
-Lista2 = Lista[:-24]
+Lista2 = Lista[:-288]
 if len(Lista2)>0:
 	comando  = ['rm '+rutaFolder+i for i in Lista2]
 	map(os.system, comando)

@@ -43,7 +43,7 @@ f.close()
 # Obtiene el elemento en Datetime
 fecha = L[6].split()[-1]
 fecha = dt.datetime.strptime(fecha, '%Y-%m-%d-%H:%M')
-print fecha
+
 
 #------------------------------------------------------------------------------
 #LISTA DE CAMPOS DE EXTRAPOLACION DISPONIBLES

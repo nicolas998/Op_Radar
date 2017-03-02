@@ -17,9 +17,9 @@ print '###################################################### Actualiza caudales
 #-------------------------------------------------------------------
 #VARIABLES DEL CRON
 #-------------------------------------------------------------------
-rutaEst = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_Observed/Comparison_Stations.txt'
-rutaFile = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_Observed/'
-rutaTemp = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_Observed/Qobs_temp.qobs'
+rutaEst = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/03_Stream_Observed/Comparison_Stations.txt'
+rutaFile = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/03_Stream_Observed/'
+rutaTemp = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/03_Stream_Observed/Qobs_temp.qobs'
 # replace: indica si se va a remplazar toda la serie historica consultada de caudales o no, por defecto se deja en que no 
 replace = False
 # DeltaAtras: Cantidad de pasos en minutos hacia atras para que se realice la consulta 
@@ -91,7 +91,7 @@ for k in DictCaudal.keys():
         rutaFin = rutaFile + nombre
     print rutaFin
     #Genera el comando de consulta y lo ejecuta
-    comando = ('/home/nicolas/Operacional/Op_Interpolated/06_Codigos/Consulta_Caudal.py '+fecha1+' '+fecha2+' '
+    comando = ('/home/nicolas/Operacional/Op_Radar/06_Codigos/Consulta_Caudal.py '+fecha1+' '+fecha2+' '
         +rutaFin+' '+idEst+' -t 5min -1 '+hora_1+' -2 '+hora_2
         +' -c '+c+' -e '+e)
     print comando
@@ -118,7 +118,7 @@ for k in DictCaudal.keys():
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 print '###################################################### Borra figuras de caudales simulados #########################################'
 
-rutaQsim = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/Qsim/'
+rutaQsim = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/Qsim/'
 #Lista archivos y obtiene fechas de creacion
 l = os.listdir(rutaQsim)
 fechas = lambda x: dt.datetime.fromtimestamp(os.path.getmtime(x))

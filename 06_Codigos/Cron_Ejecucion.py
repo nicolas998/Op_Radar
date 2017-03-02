@@ -132,8 +132,8 @@ print '###################################################### Actualizacion Caud
 #-------------------------------------------------------------------
 #Rutas
 rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_json.py'
-rutaParam = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/Qsim_001_003'
-rutaHist = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/02_Stream_History/Qsim_001_003'
+rutaParam = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/Qsim_001_002'
+rutaHist = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/02_Stream_History/Qsim_001_002'
 rutaJson = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/json/Caudales_Simulados.json'
 
 #Ejecucion
@@ -190,14 +190,14 @@ rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barb
 rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_Mapa_Caudal.py'
 rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/mapQsim/'
 rutaRes = rutaFolder + dateText + '_Qsim.png'
-rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/CuAmva_001_001.StObin'
+rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/CuBarbosa_001_002.StObin'
 
 ##comando de ejecucion
 comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
 os.system(comando)
 print 'Se ha escrito el mapa de caudales en:' + rutaRes
-#Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
-comando = 'cp '+rutaRes+' /media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/mapQsim/RedQsim.png'
+##Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
+comando = 'cp '+rutaRes+' /media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/mapQsim/RedQsim.png'
 os.system(comando)
 print 'Mapa Red hidrica simulada '+dateText+'_Qsim.png se ha copiado a RedQsim.png' 
 #Borra los archivos que tengan mas de 24 horas de viejos.

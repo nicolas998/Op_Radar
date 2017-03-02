@@ -29,10 +29,10 @@ parser.add_argument("observado",help="Numero de la estacion de caudales observad
 args=parser.parse_args()
 
 #Rutas por defecto
-ruta_qsim = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/02_Stream_History/'
-ruta_rain = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/Mean_Rain_History.rainh'
-ruta_qobs = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_Observed/Qobs_'
-ruta_figura = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/Qsim/'
+ruta_qsim = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/02_Stream_History/'
+ruta_rain = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/Mean_Rain_History.rainh'
+ruta_qobs = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/03_Stream_Observed/Qobs_'
+ruta_figura = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/Qsim/'
 
 
 #-----------------------------------------------------------------------------------------------------
@@ -233,5 +233,5 @@ f.writelines(L)
 f.close()
 
 #print commands.getoutput(rute)
-print 'http://siata.gov.co/nicolasl/Ope_AMVA_interpol/Qsim/Qsim_'+args.nodo+'.html'
+print 'http://siata.gov.co/nicolasl/Ope_Barbosa_Radar/Qsim/Qsim_'+args.nodo+'.html'
 

@@ -167,11 +167,11 @@ for k in Proyectos:
 #Guarda los caudales 
 #-------------------------------------------------------------------
 print 'Aviso: Ingresa a grabar caudales simulados'
-if args.rutaCampo.endswith('normal.bin'):
+if args.rutaCampo.endswith('media.bin'):
 	ext = 'normal'
-elif args.rutaCampo.endswith('bajo.bin'):
+elif args.rutaCampo.endswith('baja.bin'):
 	ext = 'bajo'
-elif args.rutaCampo.endswith('alto.bin'):
+elif args.rutaCampo.endswith('alta.bin'):
 	ext = 'alto'
 
 for k in Caudales.keys():

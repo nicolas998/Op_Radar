@@ -33,6 +33,7 @@ parser=argparse.ArgumentParser(
 #Parametros obligatorios
 parser.add_argument("rutaQhist",help="(Obligatorio) Carpeta con la serie historica de caudales .qsimh simulados por el modelo ")
 parser.add_argument("rutaQsim",help="(Obligatorio) Carpeta con la series de caudales .qsim simulados en el ultimo intervalo")
+#parser.add_argument("ruta",help="(Obligatorio) Carpeta con la series de caudales .qsim simulados en el ultimo intervalo")
 parser.add_argument("-n", "--newhist", help="(Opcional) Con esta opcion el script genera un nuevo punto de generacion de historicos",
 	action = 'store_true', default = False)
 parser.add_argument("-i", "--fechai", help="(Opcional) Fecha de inicio de nuevo punto de historicos (YYYY-MM-DD HH:MM)")
@@ -46,13 +47,13 @@ args=parser.parse_args()
 # LISTA DE CAUDALES SIMULADOS 
 #-------------------------------------------------------------------
 #Lista caudales simulados sin repetir 
-Lsim = os.listdir('/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/')
+Lsim = os.listdir(args.rutaQsim)
 Lsim = [i for i in Lsim if i.endswith('qsim')]
 Lsim = [i[:12] for i in Lsim]
 Lsim = list(set(Lsim))
 
 #Lee un caudal simulado para conocer las caracteristicas de este 
-L = os.listdir('/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/')
+L = os.listdir(args.rutaQsim)
 L = [i for i in L if i.endswith('normal.qsim')]
 Qsim = pnd.read_msgpack(args.rutaQsim + L[0])
 Nodos = Qsim.shape[1]
@@ -90,7 +91,7 @@ if args.newhist:
 # ACTUALIZACION DE CAUDALES 
 #-------------------------------------------------------------------
 #Busca la simulacion del caso normal para cada calibracion
-L = os.listdir('/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/')
+L = os.listdir(args.rutaQsim)
 L = [i for i in L if i.endswith('normal.qsim')]
 # Actualiza caudales para cada parametrizacion 
 for i in L:

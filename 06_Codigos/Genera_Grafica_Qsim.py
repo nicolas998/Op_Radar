@@ -4,6 +4,7 @@ import textwrap
 import pickle
 from plotly.offline import download_plotlyjs, plot
 from plotly.graph_objs import Scatter, Figure, Layout
+import plotly.offline as off
 import plotly.plotly as py
 import plotly.graph_objs as go 
 import numpy as np
@@ -29,10 +30,10 @@ parser.add_argument("observado",help="Numero de la estacion de caudales observad
 args=parser.parse_args()
 
 #Rutas por defecto
-ruta_qsim = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/02_Stream_History/'
-ruta_rain = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/Mean_Rain_History.rainh'
-ruta_qobs = '/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/03_Stream_Observed/Qobs_'
-ruta_figura = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_AMVA_interpol/Qsim/'
+ruta_qsim = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/02_Stream_History/'
+ruta_rain = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/Mean_Rain_History.rainh'
+ruta_qobs = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/03_Stream_Observed/Qobs_'
+ruta_figura = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/Qsim/'
 
 
 #-----------------------------------------------------------------------------------------------------
@@ -197,10 +198,15 @@ Fig = go.Figure(data = data, layout = layout)
 #-----------------------------------------------------------------------------------------------------
 #rute = ruta_figura +'Qsim_'+args.nodo+'_'+args.fechai+'_'+args.fechaf+'.html'
 
-rute = ruta_figura +'Qsim_'+args.nodo+'.html'
-plot(Fig, filename=rute, auto_open= False)
+rute_html = ruta_figura +'Qsim_'+args.nodo+'.html'
+rute_png = ruta_figura +'Qsim_'+args.nodo+'.png'
+plot(Fig, filename=rute_html, auto_open= False)
+plot(Fig, filename=rute_png, image = 'png', auto_open = False)
+#off.imageiplot(Fig, filename=rute_png, image = 'png')
+#off.image.save_as(Fig, filename = rute_png)
+
 #modificacion
-f = open(rute,'r')
+f = open(rute_html,'r')
 L = f.readlines()
 f.close()
 #Modificaciones
@@ -228,10 +234,10 @@ L[-1] = L[-1].replace('"showLink": true', '"showLink": false')
 var = 'window.onresize = function() {Plotly.Plots.resize(gd);};'
 L[-1] = L[-1].replace('</script></body></html>', var + '</script></body></html>')
 #Escribe de nuevo el html
-f = open(rute,'w')
+f = open(rute_html,'w')
 f.writelines(L)
 f.close()
 
 #print commands.getoutput(rute)
-print 'http://siata.gov.co/nicolasl/Ope_AMVA_interpol/Qsim/Qsim_'+args.nodo+'.html'
+print 'http://siata.gov.co/nicolasl/Ope_Barbosa_Radar/Qsim/Qsim_'+args.nodo+'.html'
 

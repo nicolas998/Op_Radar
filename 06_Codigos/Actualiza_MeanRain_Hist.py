@@ -49,9 +49,9 @@ if args.newhist:
     FechaF = args.fechaf
     #Genera el Data Frame vacio desde el inicio hasta el punto de ejecucion
     DifIndex = pnd.date_range(FechaI, FechaF, freq='5min')
-    Rh = pnd.DataFrame(np.zeros((DifIndex.size, 1))*np.nan, 
+    Rh = pnd.DataFrame(np.zeros((DifIndex.size, 3))*np.nan, 
         index=pnd.date_range(FechaI, FechaF, freq='5min'),
-        columns = ['MeanRain',])
+        columns = ['media','baja','alta'])
     #Guarda los caudales base para los historicos
     Lhist = os.listdir(args.rutaRain)
     try:
@@ -72,25 +72,40 @@ if args.newhist:
 #-------------------------------------------------------------------
 
 #Lista caudales simulados sin repetir 
-Lsim = os.listdir('/home/nicolas/Operacional/Op_Interpolated/03_Simulaciones/01_Rain/')
+Lsim = os.listdir('/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/')
 Lsim = [i for i in Lsim if i.endswith('hdr')]
+names = [i.split('_')[1][:-4] for i in Lsim]
 #busca que este el archivo base en la carpeta 
-try:
-    Ractual = pnd.read_csv(args.rutaRain + Lsim[0], header = 5, index_col = 1, parse_dates = True, usecols=(2,3))
-    Rt = pnd.DataFrame(Ractual.values[0], index=[Ractual.index[0],], columns=['MeanRain',])
-    Rhist = pnd.read_msgpack(args.rutaRain + nombre)
-    # encuentra el pedazo que falta entre ambos 
-    Gap = pnd.date_range(Rhist.index[-1], Ractual.index[0], freq='5min')
-    #Genera el pedazo con faltantes
-    GapData = pnd.DataFrame(np.zeros((Gap.size - 2, 1))*np.nan, 
-        index= Gap[1:-1],
-        columns = ['MeanRain',])        
-    #pega la informacion
-    Rhist = Rhist.append(GapData)
-    Rhist = Rhist.append(Rt)
-    #Guarda el archivo historico 
-    Rhist.to_msgpack(args.rutaRain + nombre)
-    #Aviso
-    print 'Aviso: Se ha actualizado el archivo de precipitacion media historica: '+nombre
+try:	
+	#lee la lluvia de los encabezados
+	R = []    
+	for n,l in zip(names, Lsim):
+		r = pnd.read_csv(args.rutaRain + l, 
+			header = 5, 
+			index_col = 1, 
+			parse_dates = True, 
+			usecols=(2,3))
+		R.append(r.values[0].tolist())
+	R = np.array(R)
+	#Genera un DataFrame con eso
+	Rt = pnd.DataFrame(R.T, 
+		index=[r.index[0],], 
+		columns=names)
+	#Lee el historico de lluvia
+	Rhist = pnd.read_msgpack(args.rutaRain + nombre)
+	#Rhist = pnd.read_msgpack('Mean_Rain_History.rainh')
+	#encuentra el pedazo que falta entre ambos 
+	Gap = pnd.date_range(Rhist.index[-1], Rt.index[0], freq='5min')
+	#Genera el pedazo con faltantes
+	GapData = pnd.DataFrame(np.zeros((Gap.size - 2, 3))*np.nan, 
+		index= Gap[1:-1],
+		columns = Rhist.columns)        
+	#pega la informacion
+	Rhist = Rhist.append(GapData)
+	Rhist = Rhist.append(Rt)
+	#Guarda el archivo historico 
+	Rhist.to_msgpack(args.rutaRain + nombre)
+	#Aviso
+	print 'Aviso: Se ha actualizado el archivo de precipitacion media historica: '+nombre
 except:
-    print 'Aviso: No se encuentra el historico de precipitacion '+nombre+' Por lo tanto no se actualiza'
+	print 'Aviso: No se encuentra el historico de precipitacion '+nombre+' Por lo tanto no se actualiza'

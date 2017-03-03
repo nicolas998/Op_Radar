@@ -160,7 +160,7 @@ rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barb
 rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_Mapa_Humedad.py'
 rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/humedad/'
 rutaRes = rutaFolder + dateText + '_hu.png'
-rutaStorage = '/home/nicolas/Operacional/Op_Interpolated/04_Almacenamiento/CuAmva_001_003.StObin'
+rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/CuBarbosa_001_002.StObin'
 
 #comando de ejecucion
 comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes

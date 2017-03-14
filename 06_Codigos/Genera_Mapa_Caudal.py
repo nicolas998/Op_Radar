@@ -2,19 +2,20 @@
 import argparse
 import textwrap
 import numpy as np
-import os 
-from wmf import wmf 
+import os
+from wmf import wmf
 
 #Parametros de entrada del trazador
 parser=argparse.ArgumentParser(
-	prog='Genera_Grafica_Qsim',
-	formatter_class=argparse.RawDescriptionHelpFormatter,
-	description=textwrap.dedent('''\
-	Genera el mapa de caudales estimados para cada elemento de la red hidrica
-	de la cuenca.
+        prog='Genera_Grafica_Qsim',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=textwrap.dedent('''\
+        Genera la figura de caudales simulados para un periodo asignado de tiempo, de forma 
+        adicional presenta el hietograma de precipitacion.
         '''))
+
 #Parametros obligatorios
-parser.add_argument("cuenca",help="Numero del nodo dentro de la red hidrica a plotear")
+parser.add_argument("cuenca",help="Archivo -nc de la cuenca con la cual se va a realizar el trabajo")
 parser.add_argument("storage",help="Ruta al archivo binario con el almacenamiento")
 parser.add_argument("ruta",help="Ruta donde se guarda la figura con la humedad")
 parser.add_argument("-c", "--coord",help="Escribe archivo con coordenadas", default = False, type = bool)

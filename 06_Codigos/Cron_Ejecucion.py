@@ -32,7 +32,8 @@ hora_2 = fecha_2.strftime('%H:%M')
 #RUTAS DE TRABAJO
 #-------------------------------------------------------------------
 rutaCodigo = '/home/nicolas/Operacional/Op_Radar/06_Codigos/GeneraCampos_Radar.py'
-rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+#rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Barbosa_Slides_001.nc'
 rutaBinario = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain'
 rutaRadar = '/media/nicolas/Radar/'
 
@@ -68,14 +69,15 @@ rutaOper = '/home/nicolas/Operacional/Op_Radar/'
 rutaCampos = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_'
 rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/'
 rutaQsim = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/'
+rutaSlides = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/04_SlidesSim/'
 
 #-------------------------------------------------------------------
 #Ejecuta para todos los escenarios
 #-------------------------------------------------------------------
 Lista = []
 for escena in ['baja', 'alta']:
-	Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+escena+'.bin '+rutaStorage+' '+rutaQsim)
-Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+'media.bin '+rutaStorage+' '+rutaQsim+' -s')
+	Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+escena+'.bin '+rutaStorage+' '+rutaQsim+' '+rutaSlides)
+Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+'media.bin '+rutaStorage+' '+rutaQsim+' '+rutaSlides+' -s')
 #Ejecucion
 P = Pool(processes = 3)
 r = P.map(os.system, Lista)
@@ -156,14 +158,14 @@ print '###################################################### Figuras de mapas q
 # Finalmente se debe elegir donde se aloja la figura y el archivo de texto con las coordenadas.
 
 #Rutas
-rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Barbosa_Slides_001.nc'
 rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_Mapa_Humedad.py'
 rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/humedad/'
 rutaRes = rutaFolder + dateText + '_hu.png'
 rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/CuBarbosa_001_002.StObin'
 
 #comando de ejecucion
-comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
+comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes+' -1 0 -2 0.8'
 os.system(comando)
 print 'Se ha escrito el mapa de humeda en:' + rutaRes
 #Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
@@ -186,7 +188,7 @@ if len(Lista2)>0:
 # de la cuenca
 
 #Rutas
-rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Cuenca_AMVA_Barbosa_001.nc'
+rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Barbosa_Slides_001.nc'
 rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_Mapa_Caudal.py'
 rutaFolder = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/mapQsim/'
 rutaRes = rutaFolder + dateText + '_Qsim.png'

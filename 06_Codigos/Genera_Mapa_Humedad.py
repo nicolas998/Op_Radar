@@ -40,7 +40,9 @@ else:
 	ruta_texto = args.ruta + '.txt'
 	ruta_plot = args.ruta + '.png'
 #Plot 
-Humedad = 100.0*((v[0]+v[2])/(wmf.models.max_gravita + wmf.models.max_capilar))
+#Humedad = 100.0*((v[0]+v[2])/(wmf.models.max_gravita + wmf.models.max_capilar))
+Humedad = v[2]/wmf.models.max_gravita
+
 Coord = cu.Plot_basinClean(Humedad, ruta_plot, figsize = (15,10), cmap = 'viridis', 
 	vmax = args.vmax, vmin = args.vmin)
 #Guarda archuivo con coordenadas

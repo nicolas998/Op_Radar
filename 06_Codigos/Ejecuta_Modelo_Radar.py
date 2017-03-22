@@ -48,6 +48,7 @@ parser.add_argument("rutaABS",help="(Obligatorio) Ruta absoluta para buscar en e
 parser.add_argument("rutaCampo",help="(Obligatorio) Ruta donde se cuentra el binario con el campo de lluvia (.bin)")
 parser.add_argument("rutaStore",help="(Obligatorio) Ruta donde se guardan las condiciones de almacenamiento de la cuenca")
 parser.add_argument("rutaQsim",help="(Obligatorio) Ruta donde se guardan los cuadlaes simulados")
+parser.add_argument("rutaSlides",help="(Obligatorio) Ruta donde se guardan binarios de los deslizamientos simulados (.bin)")
 parser.add_argument("-v","--verbose",help="(Opcional) Hace que el modelo indique en que porcentaje de ejecucion va",
 	action = 'store_true', default = False)
 parser.add_argument("-s","--store",help="(Opcional) Guarda o no los almacenamientos derivados de la ejecucion",
@@ -103,6 +104,10 @@ for k in Proyectos.keys():
 wmf.models.show_storage = 1
 wmf.models.separate_fluxes = 1
 wmf.models.dt = 300
+#Set para deslizamientos 
+wmf.models.sl_fs = 0.5
+wmf.models.sim_slides = 1
+#Variables de caudales y lluvia en simulacion
 Caudales = {}
 Rain = wmf.read_mean_rain(args.rutaCampo[:-4]+'.hdr')
 #Ejecucion del modelo
@@ -110,9 +115,11 @@ for k in Proyectos:
 	# Se fija que el proyecto tenga calibracion
 	if Proyectos[k]['calibValues'] <> None:
 		#Si si, comienza a cargar las cosas para la ejecuicion
-		cu = wmf.SimuBasin(0,0,0,0, rute=Proyectos[k]['cuenca'])
+		cu = wmf.SimuBasin(rute=Proyectos[k]['cuenca'], SimSlides = True)
 		Caudales.update({k:{}})
 		posControl = wmf.models.control[wmf.models.control<>0]
+		MapSlides = []
+		DictSlides = {}
 		#Itera para cada almacenamiento
 		for k2 in Proyectos[k]['calibValues'].keys():
 			#Obtiene la calibracion
@@ -160,6 +167,10 @@ for k in Proyectos:
 				index=Rain.index,
 				columns=posControl)
 			Caudales[k].update({k2:Qsim})
+			
+			#copia mapas de deslizamientos simulados 
+			DictSlides.update({k2: Results['Slides_Map']})
+			#MapSlides.append(Results['Slides_Map'])
 	else:
 		print 'Error: El proyecto '+k+' no cuenta con ningun tipo de calibracion'
 
@@ -181,3 +192,11 @@ for k in Caudales.keys():
         Caudales[k][k2].to_msgpack(nombre)
         print 'Se guarda: '+nombre
 
+#-------------------------------------------------------------------
+#Guarda los mapas de deslizamientos simulados 
+#-------------------------------------------------------------------
+for k in DictSlides.keys():
+	rutaSlidesFin = args.rutaSlides +'Slides_'+ext+'_'+ k
+	wmf.models.write_int_basin(rutaSlidesFin, 
+		DictSlides[k], 1, cu.ncells, 1)
+	print 'Aviso: Se escribe binario de deslizamientos: '+ 'Slides_'+ext+'_'+ k

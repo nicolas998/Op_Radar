@@ -7,6 +7,7 @@ import numpy as np
 import pickle 
 
 # Texto Fecha: el texto de fecha que se usa para guardar algunos archivos de figuras.
+date = dt.datetime.now()
 dateText = dt.datetime.now().strftime('%Y%m%d%H%M')
 
 
@@ -69,18 +70,22 @@ rutaOper = '/home/nicolas/Operacional/Op_Radar/'
 rutaCampos = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_'
 rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/'
 rutaQsim = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/'
+#Para la simulacion de deslizamientos
 rutaSlides = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/04_SlidesSim/'
+#cuando no se simula deslizamientos (Descomentar):
+#rutaSlides = None
 
 #-------------------------------------------------------------------
 #Ejecuta para todos los escenarios
 #-------------------------------------------------------------------
 Lista = []
 for escena in ['baja', 'alta']:
-	Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+escena+'.bin '+rutaStorage+' '+rutaQsim+' '+rutaSlides)
-Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+'media.bin '+rutaStorage+' '+rutaQsim+' '+rutaSlides+' -s')
+	Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+escena+'.bin '+rutaStorage+' '+rutaQsim+' -r '+rutaSlides)
+Lista.append(rutaEjec+' '+rutaOper+' '+rutaCampos+'media.bin '+rutaStorage+' '+rutaQsim+' -r '+rutaSlides+' -s')
 #Ejecucion
 P = Pool(processes = 3)
 r = P.map(os.system, Lista)
+P.close()
 print '------------------------------------------'
 print '03. Modelo Ejecutado'
 print '\n'
@@ -198,10 +203,22 @@ rutaStorage = '/home/nicolas/Operacional/Op_Radar/04_Almacenamiento/CuBarbosa_00
 comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes
 os.system(comando)
 print 'Se ha escrito el mapa de caudales en:' + rutaRes
-##Copia el ultimo archivo de humedad para que sea el que se muestra por defecto en la pagina 
+##Copia el ultimo archivo de caudal para que sea el que se muestra por defecto en la pagina 
 comando = 'cp '+rutaRes+' /media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/mapQsim/RedQsim.png'
 os.system(comando)
 print 'Mapa Red hidrica simulada '+dateText+'_Qsim.png se ha copiado a RedQsim.png' 
+#Crea los mapas de la extrapolacion
+ListaComandos = []
+for i in range(2,13):
+	ddText = date + dt.timedelta(minutes = 5 * i)
+	ddText = ddText.strftime('%Y%m%d%H%M')
+	rutaRes = rutaFolder + ddText + '_Qsim.png'
+	comando = rutaEjec+' '+rutaCuenca+' '+rutaStorage+' '+rutaRes+' -r '+str(i)
+	ListaComandos.append(comando)
+P = Pool(4)
+P.map(os.system, ListaComandos)
+P.close()
+print 'Mapas de caudales en extrapolacion generados'
 #Borra los archivos que tengan mas de 24 horas de viejos.
 Lista = os.listdir(rutaFolder)
 Lista = [i for i in Lista if i.endswith('_Qsim.png')]
@@ -211,3 +228,18 @@ if len(Lista2)>0:
 	comando  = ['rm '+rutaFolder+i for i in Lista2]
 	map(os.system, comando)
 	print 'Se han borrado mapas con antiguedad mayor a 24 horas'
+
+#Descripcion:
+#-------------------------------------------------------------------
+# Grafica cada 5 min un estimado de la cantidad de celdas que fallan en un intervalo.
+# Solo se habilita para modelos con deslizamientos.
+
+#Rutas
+rutaCuenca = '/home/nicolas/Operacional/Op_Radar/01_Bin_Cuencas/Barbosa_Slides_001.nc'
+rutaEjec = '/home/nicolas/Operacional/Op_Radar/06_Codigos/Genera_Mapa_Slides.py'
+rutaSlides = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/04_SlidesSim/'
+rutaSlidesFig = '/media/nicolas/discoGrande/01_SIATA/ResultadosOperacion/Ope_Barbosa_Radar/slides/'
+
+comando = rutaEjec+' '+rutaCuenca+' '+rutaSlides+' '+rutaSlidesFig 
+os.system(comando)
+print 'Mapas de deslizamientos generados.'

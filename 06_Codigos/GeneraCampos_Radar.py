@@ -97,7 +97,7 @@ for d1,d2 in zip(datesDt[:-1],datesDt[1:]):
 #CARGADO DE LA CUENCA SOBRE LA CUAL SE REALIZA EL TRABAJO DE OBTENER CAMPOS
 #-------------------------------------------------------------------------------------------------------------------------------------
 #Carga la cuenca del AMVA
-cuAMVA = wmf.SimuBasin(0,0,0,0,rute = args.cuenca)
+cuAMVA = wmf.SimuBasin(rute = args.cuenca)
 rad = radar.radar_process()
 
 #-------------------------------------------------------------------------------------------------------------------------------------

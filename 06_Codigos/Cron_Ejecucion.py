@@ -5,6 +5,7 @@ import os
 from multiprocessing import Pool
 import numpy as np
 import pickle 
+import subprocess
 
 # Texto Fecha: el texto de fecha que se usa para guardar algunos archivos de figuras.
 date = dt.datetime.now()
@@ -50,13 +51,38 @@ print '01. Campo de lluvia actual actualizado '
 #-------------------------------------------------------------------
 #Campo de lluvia extrapolado
 #-------------------------------------------------------------------
-rutaCodigo = '/home/nicolas/Operacional/Op_Radar/06_Codigos/GeneraCampos_Extrapol.py'
+rutaCodigo1 = '/home/nicolas/Operacional/Op_Radar/06_Codigos/GeneraCampos_Extrapol.py'
+rutaCodigo2 = '/home/nicolas/Operacional/Op_Radar/06_Codigos/GeneraCampos_Persistencia.py'
 rutaHeader = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain_media.hdr'
 rutaExtrapol = '/media/nicolas/Extrapol/'
+rutaCampos = '/home/nicolas/Operacional/Op_Radar/03_Simulaciones/01_Rain/CampoRain'
 
-comando = rutaCodigo+' '+rutaCuenca+' '+rutaBinario+' '+rutaHeader+' '+rutaExtrapol
-os.system(comando)
-print '02. Campo extrapolado agregado al campo actual de lluvia de la cuenca.'
+#try:
+	#comando = rutaCodigo1+' '+rutaCuenca+' '+rutaBinario+' '+rutaHeader+' '+rutaExtrapol
+	#subprocess.call([comando])
+	#print '02. Campo !!!EXTRAPOLADO!!! agregado al campo actual de lluvia de la cuenca.'
+#except OSError:
+	#comando = rutaCodigo2+' '+rutaCuenca+' '+rutaCampos
+	#subprocess.call([comando])
+	#print '03. Campo !!!PERSISTENCIA!!! agregado al campo de lluvia de la cuenca'
+L1 = [rutaCodigo1, rutaCuenca, rutaBinario, rutaHeader, rutaExtrapol]
+L2 = [rutaCodigo2, rutaCuenca, rutaCampos]
+r = subprocess.call(L1)
+if r==1:
+    subprocess.call(L2)
+    print '03. Campo !!!PERSISTENCIA!!! agregado al campo de lluvia de la cuenca'
+else:
+	print '02. Campo !!!EXTRAPOLADO!!! agregado al campo actual de lluvia de la cuenca.'
+	
+#comando = rutaCodigo1+' '+rutaCuenca+' '+rutaBinario+' '+rutaHeader+' '+rutaExtrapol
+#os.system(comando)
+
+#if salida <> 'mierda':
+	#print '02. Campo !!!EXTRAPOLADO!!! agregado al campo actual de lluvia de la cuenca.'
+#else:
+	#comando = rutaCodigo2+' '+rutaCuenca+' '+rutaCampos
+	#os.system(comando)
+	#print '03. Campo !!!PERSISTENCIA!!! agregado al campo de lluvia de la cuenca'
 
 ##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ##||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||

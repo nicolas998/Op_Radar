@@ -110,12 +110,13 @@ Data[Calidad<>1] = np.nan
 Data[Data<0] = np.nan
 Data[Calidad<>1] = np.nan
 nivel = pd.Series(Data, pd.to_datetime(DatesTime))
-nivel = nivel.resample('5min').mean()        
+Caudal = args.coef*((nivel/100)**args.expo)
+Caudal = Caudal.resample(args.dt).mean()        
 #Guarda en una mgran matriz
-nivel = nivel[DatesSort]
+Caudal = Caudal[DatesSort]
 
 #convierte a caudal y guarda 
-Caudal = args.coef*((nivel/100)**args.expo)
+
 if args.ventana <> 0:
 	Caudal = Caudal.rolling(args.ventana).median()
 Caudal.to_msgpack(args.ruta_out)

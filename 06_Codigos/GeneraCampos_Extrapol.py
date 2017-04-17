@@ -44,7 +44,6 @@ f.close()
 fecha = L[6].split()[-1]
 fecha = dt.datetime.strptime(fecha, '%Y-%m-%d-%H:%M')
 
-
 #------------------------------------------------------------------------------
 #LISTA DE CAMPOS DE EXTRAPOLACION DISPONIBLES
 #------------------------------------------------------------------------------
@@ -115,5 +114,4 @@ for k in ['media','baja','alta']:
 	# Cierra el binario y construye el hdr, luego reinicia el contador de radar
 	cuAMVA.rain_radar2basin_from_array(status = 'close',ruta_out = ruta)
 	cuAMVA.rain_radar2basin_from_array(status = 'reset')
-
 

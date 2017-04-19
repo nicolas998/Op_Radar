@@ -99,6 +99,8 @@ for d1,d2 in zip(datesDt[:-1],datesDt[1:]):
 #Carga la cuenca del AMVA
 cuAMVA = wmf.SimuBasin(rute = args.cuenca)
 rad = radar.radar_process()
+Lprop = radar.RadProp
+Lprop.insert(4,Lprop[-2])
 
 #-------------------------------------------------------------------------------------------------------------------------------------
 #GENERA EL BINARIO DE CAMPOS PARA LA CUENCA 
@@ -124,7 +126,7 @@ for dates,pos in zip(datesDt[1:],PosDates):
 			rad.DBZ2Rain()
 			#Escribe para cada escenario 
 			for k in rad.ppt.keys():
-				rv[k] += cuAMVA.Transform_Map2Basin(rad.ppt[k]/12.0,radar.RadProp)		
+				rv[k] += cuAMVA.Transform_Map2Basin(rad.ppt[k]/12.0,Lprop)		
 	except:
 		pass
 	#Agrega el campo para el intervalo 

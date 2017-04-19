@@ -78,7 +78,9 @@ pos = np.argmin(Segundos)
 #inicia la variable de radar y la variable cuenca 
 cuAMVA = wmf.SimuBasin(rute = args.cuenca)
 rad = radar.radar_process()
-	
+Lprop = radar.RadProp
+Lprop.insert(4,Lprop[-2])
+
 #Trabaja sobre la lista para adicionar campos
 rvec = {'media':[], 
 		'baja': [], 
@@ -90,7 +92,7 @@ for c,l in enumerate(ListaFin[pos:pos+12]):
 	rad.ref = rad.ref * rad.binario
 	rad.DBZ2Rain()
 	for k in ['media','baja','alta']:
-		rv = cuAMVA.Transform_Map2Basin(rad.ppt[k]/12.0,radar.RadProp)
+		rv = cuAMVA.Transform_Map2Basin(rad.ppt[k]/12.0,Lprop)
 		rvec[k].append(rv)
 	#Dice info sobre lo que hace
 	if args.verbose:
